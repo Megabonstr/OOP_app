@@ -12,31 +12,36 @@
 
 
 class User:
-    id_users = 10000
+    users_id = 10000
     count_users = 0
-    lst_users = []
+    all_users = {}
 
     # Конструктор для всех экземпляров класса (Объектов пользователя)
     def __init__(self, name: str, gen: str, age: int):
-        self.id_user: int = 1
+        """ При создании экземпляра класса инициализируем функцию для подсчета данных о пользователях """
+        self.count_id_list()
+        self.user_id: int = User.users_id
         self.name = name
         self.gen = gen
         self.age = age
-        ''' При создании экземпляра класса инициализируем функцию для определения базовых характеристик'''
+        """ При создании экземпляра класса инициализируем функцию для хранения данных о пользователях """
+        self.add_all_users()
+        """ При создании экземпляра класса инициализируем функцию для определения базовых характеристик """
         self.user_params()
-        ''' При создании экземпляра класса инициализируем функцию для подсчета и хранения данных о пользователях'''
-        self.id_count_users()
+
+    @staticmethod
+    def count_id_list():
+        User.count_users += 1
+        User.users_id += 1
+
+    def add_all_users(self):
+        User.all_users.update({self.users_id: self.name})
 
     def user_params(self):
         self.strenght: int = 10  # Показатель физической силы, развивается при выполнении силовых упражнений
         self.endurance: int = 10  # Показатель выносливости, развивается при кардио тренировках - бег и тд.
         self.intellect: int = 10  # Показатель знаний, развивается при обучении, чтении книг, просмотра обучающих видео
         self.logic: int = 10  # Показатель сообразительности, развивается при решении сложных задач с помощью алгоритмов
-
-    def id_count_users(self):
-        User.count_users += self.id_user
-        User.id_users += 1
-        User.lst_users.append(str(self.id_users) + ' - ' + self.name)
 
     def get_user_info(self):
         return f' Характеристики {self.name}:\n Сила: {self.strenght}\n Выносливость: {self.endurance}\n ' \
@@ -51,16 +56,22 @@ class User:
         if cardio_train > 0:
             return f'Ваша сила увеличена на {self.strenght}'
 
-
     def char_mind_devel(self, education, logic_ex):
         pass
 
 
 user1 = User('Leon', 'муж.', 35)
+user2 = User('Leon', 'муж.', 35)
+user3 = User('Leon', 'муж.', 35)
 
-# print(User.lst_users)
-# print(User.count_users)
+user1.char_phys_devel(
+    int(input(f'Сколько вы занимались силовыми сегодня?:')),
+    int(input(f'Сколько вы занимались кардио сегодня?:'))
+)
 
-user1.char_phys_devel(int(input(f'Сколько вы занимались силовыми сегодня?:')), int(input(f'Сколько вы занимались кардио сегодня?:')))
-
-print(user1.get_user_info())
+# print(user1.get_user_info())
+print(User.all_users)
+print(User.count_users)
+print(user1.user_id)
+print(user2.user_id)
+print(user3.user_id)
